@@ -151,10 +151,7 @@ class SnakeGame<TSprite> : Game<TSprite> where TSprite : Sprite
             verongelukt();
 
         else if (veld[kop.x, kop.y] != SnakeSprites.LEEGTE)
-        {
-            Console.WriteLine(veld[kop.x, kop.y]);
             verongelukt();
-        }
 
         else
         {
@@ -167,16 +164,16 @@ class SnakeGame<TSprite> : Game<TSprite> where TSprite : Sprite
     }
 
     public override void ActionUp() =>
-        richting = Richting.Noord;
+        richting = richting == Richting.Zuid ? Richting.Zuid : Richting.Noord;
 
     public override void ActionDown() =>
-        richting = Richting.Zuid;
+        richting = richting == Richting.Noord ? Richting.Noord : Richting.Zuid;
 
     public override void ActionRight() =>
-        richting = Richting.Oost;
+        richting = richting == Richting.West ? Richting.West : Richting.Oost;
 
     public override void ActionLeft() =>
-        richting = Richting.West;
+        richting = richting == Richting.Oost ? Richting.Oost : Richting.West;
 
     public override void Quit()
     {

@@ -80,6 +80,8 @@ abstract class ConsoleGraphics : Graphics<ConsoleSprite>
 
     public override void ClearScreen()
     {
+        Console.ResetColor();
+
         Console.Clear();
 
         Console.CursorVisible = false;
