@@ -186,7 +186,7 @@ class SnakeGame<TSprite> : Game<TSprite> where TSprite : Sprite
 
 class ConsoleSnakeGraphics : ConsoleGraphics
 {
-    public override void Init()
+    public override void InitGame()
     {
         var grond = new ConsoleSprite
             (' ');

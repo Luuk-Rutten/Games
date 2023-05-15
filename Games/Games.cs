@@ -9,7 +9,9 @@ public class MainClass
     {
         var snakeGraphics = new ConsoleSnakeGraphics();
 
-        var controller = new ConsoleController(snakeGraphics);
+        var snakeInput = new ConsoleInput();
+
+        var controller = new ConsoleController(snakeGraphics, snakeInput);
         
         var snakeGame = new SnakeGame<ConsoleSprite>(controller);
         
