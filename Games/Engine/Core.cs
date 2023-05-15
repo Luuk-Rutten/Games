@@ -1,0 +1,203 @@
+using System.ComponentModel;
+using System.Net.Mail;
+using Gamernoid.Engine.Drivers;
+using Gamernoid.Games;
+
+namespace Gamernoid;
+
+public class Control
+{
+ /* Instanties van deze klasse geven controle over het verloop van het spel. */
+ 
+    public bool isRunning = true;
+    public int speed = 100;
+}
+
+public interface Sprite
+{
+ /* Een sprite stelt een tekening of een plaatje (van een spel) voor.
+  
+    Deze interface is leeg (dus: dwingt geen methodes af die geimplementeerd dienen te worden).
+  */
+}
+
+abstract public class Graphics<TSprite> where TSprite : Sprite
+{
+ /* Deze abstracte klasse representeert "alles met graphics".
+  
+    Implementaties van deze klasse zijn verantwoordelijk voor "apparaat-specifieke"
+    (of: grafische techniek-specifieke) functionaliteit.    
+ */
+ 
+    private Dictionary<int, TSprite> sprites = new Dictionary<int, TSprite>();
+
+    protected TSprite GetSprite(int id)
+    {
+        TSprite sprite;
+        
+        if (!sprites.TryGetValue(id, out sprite))
+        {
+            foreach (var k in sprites.Keys)
+                Console.WriteLine(k);
+            
+            throw new ControllerException($"onbekende sprite '{id}' opgevraagd!");
+        }
+
+        return sprite;
+    }
+    
+    protected void RegisterSprite(int id, TSprite sprite)
+    {
+        if (sprites.ContainsKey(id))
+        {
+            throw new ControllerException("sprites moeten uniek zijn!");
+        }
+        
+        sprites.Add(id, sprite);
+    }
+    
+    abstract public void Init();
+    
+    abstract public void ClearScreen();
+
+    abstract public void DrawSprite(int x, int y, int spriteId);
+}
+
+public class ControllerException : Exception
+{
+    public ControllerException(string message) : base(message)
+    {
+    }
+}
+
+public abstract class Controller<TSprite> where TSprite : Sprite
+{
+    private Control control;
+
+    private Graphics<TSprite> graphics;
+
+    public Controller(Graphics<TSprite> graphics)
+    {
+        this.graphics = graphics;
+    }
+
+    public void AssignControl(Control control)
+    {
+        this.control = control;
+    }
+    
+    public void stopRunning()
+    {
+        control.isRunning = false;
+    }
+
+    public void Init()
+    {
+        graphics.Init();
+    }
+
+    public void DrawSprite(int x, int y, int spriteId)
+    {
+        graphics.DrawSprite(x, y, spriteId);
+    }
+}
+
+public abstract class Game<TSprite> where TSprite : Sprite
+{
+    protected Controller<TSprite> Controller;
+
+    public Game(Controller<TSprite> controller)
+    {
+        Controller = controller;
+    }
+    
+    public abstract void Draw();
+
+    public virtual void ActionUp()
+    {
+    }
+
+    public virtual void ActionDown()
+    {
+    }
+
+    public virtual void ActionLeft()
+    {
+    }
+
+    public virtual void ActionRight()
+    {
+    }
+
+    public virtual void ActionA()
+    {
+    }
+
+    public virtual void ActionB()
+    {
+    }
+
+    public abstract void Quit();
+}
+
+public class Core<TController, TSprite> 
+    where TSprite : Sprite
+    where TController : Controller<TSprite>
+{
+    private Control control = new Control();
+
+    private Game<TSprite> game;
+    private TController controller;
+ 
+    public Core(TController controller, Game<TSprite> game)
+    {
+        this.controller = controller;
+        this.game = game;
+    }
+    
+    public void Run()
+    {
+        Console.Clear();
+
+        Console.CursorVisible = false;
+        
+        controller.Init();
+        
+        controller.AssignControl(control);
+        
+        while (control.isRunning)
+        {
+            game.Draw();
+            
+            Thread.Sleep(control.speed);
+
+            if (Console.KeyAvailable)
+            {
+                var key = Console.ReadKey(true);
+
+                switch (key.Key)
+                {
+                    case ConsoleKey.Q:
+                        game.Quit();
+                        break;
+                    
+                    case ConsoleKey.LeftArrow:
+                        game.ActionLeft();
+                        break;
+
+                    case ConsoleKey.RightArrow:
+                        game.ActionRight();
+                        break;
+
+                    case ConsoleKey.UpArrow:
+                        game.ActionUp();
+                        break;
+
+                    case ConsoleKey.DownArrow:
+                        game.ActionDown();
+                        break;
+                }
+            }
+        }
+    }
+}
