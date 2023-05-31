@@ -1,6 +1,6 @@
-using Gamernoid.Engine.Drivers;
+namespace Gamernoid.Games.Snake;
 
-namespace Gamernoid.Games;
+using Gamernoid.Engine.Drivers;
 
 class SnakeSprites
 {
@@ -11,26 +11,6 @@ class SnakeSprites
     public const int PADDO = 4;
     public const int UITGANG = 5;
     public const int VERONGELUKT = 6;
-}
-
-
-struct Coordinaat
-{
-    public int x, y;
-
-    public Coordinaat(int x, int y)
-    {
-        this.x = x;
-        this.y = y;
-    }
-}
-
-enum Richting
-{
-    Noord = 1,
-    Zuid  = 2,
-    Oost  = 3,
-    West  = 4
 }
 
 class SnakeGame<TSprite> : Game<TSprite> where TSprite : Sprite
@@ -149,10 +129,10 @@ class SnakeGame<TSprite> : Game<TSprite> where TSprite : Sprite
         
         else if ((kop.y >= veld.GetLength(1)) || kop.y < 0)
             verongelukt();
-
+        
         else if (veld[kop.x, kop.y] != SnakeSprites.LEEGTE)
             verongelukt();
-
+        
         else
         {
             veld[kop.x, kop.y] = SnakeSprites.SLANG_KOP;
