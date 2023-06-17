@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Games": {
+      "commandName": "Project",
+      "commandLineArgs": "sokoban\r\n"
+    }
+  }
+}
