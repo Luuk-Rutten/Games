@@ -20,6 +20,7 @@ class SokobanGame<TSprite> : Game<TSprite> where TSprite : Sprite
 
     private Coordinaat speler;
     private Coordinaat steen;
+    private Coordinaat kruis;
 
     private int[,] veld;
     private Richting richting = Richting.Oost;
@@ -89,7 +90,8 @@ class SokobanGame<TSprite> : Game<TSprite> where TSprite : Sprite
         {
             veld[x, y] = SokobanSprites.KRUIS;
             Controller.DrawSprite(x, y, SokobanSprites.KRUIS);
-
+            kruis.x = 60;
+            kruis.y = 20;
         }
 
     }
@@ -145,7 +147,7 @@ class SokobanGame<TSprite> : Game<TSprite> where TSprite : Sprite
         if (frame == 0)
             tekenGeheleVeld();
         maakstenen();
-        maakkruis(40, 20);
+        maakkruis(60, 20);
         Controller.DrawSprite(speler.x, speler.y, SokobanSprites.SPELER);
 
         if (MagStapNemen)
@@ -231,6 +233,13 @@ class SokobanGame<TSprite> : Game<TSprite> where TSprite : Sprite
 
 
 
+                }
+                //kan de steen naar het kruis verschuiven, winconditie
+                if (steen.x == kruis.x && steen.y == kruis.y)
+                {
+                    Console.WriteLine("Gewonnen!");
+                    Thread.Sleep(3000);
+                    Quit();
                 }
 
             }
