@@ -10,7 +10,7 @@ class SokobanSprites
     public const int SPELER = 1;
     public const int KRUIS = 2;
     public const int STEEN = 3;
-    public const int MUUR = 4;
+    public const int MUUR = 5;
 }
 
 class SokobanGame<TSprite> : Game<TSprite> where TSprite : Sprite
@@ -68,11 +68,11 @@ class SokobanGame<TSprite> : Game<TSprite> where TSprite : Sprite
 
     private void maakstenen()
     {
-        if (veld[20,20 ] == SokobanSprites.LEEGTE)
+        if (veld[20, 20] == SokobanSprites.LEEGTE)
         {
             veld[20, 20] = SokobanSprites.STEEN;
-            Controller.DrawSprite(20,20, SokobanSprites.STEEN);
-            
+            Controller.DrawSprite(20, 20, SokobanSprites.STEEN);
+
         }
 
 
@@ -85,8 +85,9 @@ class SokobanGame<TSprite> : Game<TSprite> where TSprite : Sprite
 
         veld = new int[80, 24];
       
-        maakstenen();
         kaart1();
+        maakstenen();
+
     }
 
     public override void ActionUp()  
@@ -127,6 +128,8 @@ class SokobanGame<TSprite> : Game<TSprite> where TSprite : Sprite
 
         if (frame == 0)
             tekenGeheleVeld();
+
+
 
         Controller.DrawSprite(speler.x, speler.y, SokobanSprites.SPELER);
 
