@@ -88,8 +88,8 @@ class SokobanGame<TSprite> : Game<TSprite> where TSprite : Sprite
         {
             veld[x, y] = SokobanSprites.KRUIS;
             Controller.DrawSprite(x, y, SokobanSprites.KRUIS);
-            kruis.x = 60;
-            kruis.y = 20;
+            //kruis.x = 60;
+            //kruis.y = 20;
         }
 
     }
@@ -101,7 +101,6 @@ class SokobanGame<TSprite> : Game<TSprite> where TSprite : Sprite
 
         veld = new int[80, 24];
       
-        maakstenen();
         kaart1();
     }
 
@@ -145,7 +144,8 @@ class SokobanGame<TSprite> : Game<TSprite> where TSprite : Sprite
 
         if (frame == 0)
             tekenGeheleVeld();
-
+         maakstenen();
+         maakkruis(40, 16);
         Controller.DrawSprite(speler.x, speler.y, SokobanSprites.SPELER);
 
         if (MagStapNemen)
