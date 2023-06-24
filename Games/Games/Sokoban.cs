@@ -75,7 +75,9 @@ class SokobanGame<TSprite> : Game<TSprite> where TSprite : Sprite
         {
             veld[20, 20] = SokobanSprites.STEEN;
             Controller.DrawSprite(20,20, SokobanSprites.STEEN);
-            
+            steen.y = 20;
+            steen.x = 20;
+
         }
 
 
